@@ -10,3 +10,5 @@ Till now, we have finished collecting data and preprocessing data, we would like
 
 > Flash Card: Bitcoin Futures
 >In December 2017, CME and the Chicago Board Options Exchange(CBOE) launched their respective cash-settled bitcoin futures trading products as one of the first major moves to bring a bitcoin-based (or, in this case, a bitcoin price-based) trading product to the mainstream financial world ([Forbes, 2019](https://www.forbes.com/sites/benjaminpirus/2019/08/28/cme-bitcoin-futures-now-average-370-million-in-trading-per-day/#7315d86667ea)).
+
+### Where to Get Data?
