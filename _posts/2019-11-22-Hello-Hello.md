@@ -22,7 +22,7 @@ Here comes the first and one of the most crucial steps of most NLP projects. Whe
 In the beginning, we tried to use Eikon Reuters to extract the bitcoin news articles. However, we found that the official API of Reuters has a limitation of 100 outcomes every time. If there are more than 100 outcomes each time, it will fall to an error and show only 10 of the recent outcomes. With the inspiration of our course instructor, we decided to turn to the Twitter database for easy access. Since the main news sources, such as coin desk, all have their twitter pages and post the news on its timeline with a short summary to present the main idea.
 Twitter Inc. provides official API called [Tweepy](https://www.tweepy.org/), with Tweepy we can download tweets from a few Bitcoin news provider’s timelines. Following is a code snippet to download tweets from a user’s timeline.
   
-```python3
+```python
 
 # Import tweepy and csv.
 import tweepy 
