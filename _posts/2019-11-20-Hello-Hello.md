@@ -1,4 +1,3 @@
-# Let's Start Here!
 ### Hello World
 ### Bonjour Tout Le Monde
 ### 世界你好  
