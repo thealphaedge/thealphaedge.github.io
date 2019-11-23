@@ -1,3 +1,8 @@
+---
+layout: post
+title: Getting Started with NLP!
+---
+
 ## Hello World
 ## Bonjour Tout Le Monde
 ## 世界你好  
