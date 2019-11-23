@@ -83,9 +83,7 @@ In conclusion, there are a huge amount of unstructured text data all over the in
 Failure can be fun!  _Image source: Getty_
 
 
-Thanks for reading, hope you can leave comments if there is any question, advice or idea to share with us!
-
 ## Next Up…
  
-In our next post, we will talk about Trading strategy backtest in Python (comment: or NLP we can discuss what’s next). 
+Thanks for reading! In our next post, we will talk about Trading strategy backtest in Python. 
 Stay tuned!
