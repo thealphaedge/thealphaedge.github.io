@@ -23,7 +23,7 @@ In our project, we try to speculate the bitcoin futures prices changed based on 
 
 ## Now let’s look at an example
 
-After we downloaded bitcoin tweets from the [last post](https://thealphaedge.github.io/2019-11-27-Getting-Started-With-NLP/), we use [the VADER sentiment analysis too](https://github.com/cjhutto/vaderSentiment) to generate a sentiment score for each tweet. As the main topic of this post is trading strategy testing, we will not talk in detail about sentimental analysis. Then we merged the sentimental scores into a daily time series data frame and merge it with bitcoin futures contract daily close price.
+After we downloaded bitcoin tweets from the [last post](https://thealphaedge.github.io/2019-11-27-Getting-Started-With-NLP/), we use [the VADER sentiment analysis tool](https://github.com/cjhutto/vaderSentiment) to generate a sentiment score for each tweet. As the main topic of this post is trading strategy testing, we will not talk in detail about sentimental analysis. Then we merged the sentimental scores into a daily time series data frame and merge it with bitcoin futures contract daily close price.
 
 
 | Date       | Close price | Score (sum) | Score (avg) |
@@ -43,15 +43,15 @@ _Extract from the merged data frame._
 
 **Step by step process to test with the time series data:**
 
-1. You may notice there are some #N/A in the daily time frame, so firstly forward fill the sentiment score data if it is missed.
-2. Calculate the daily return of bitcoin futures as the position holding period is one day if there is any signal
-3. Apply the logic into the historical data: if sentiment score is > a threshold, say, 0.6, we will take a long position; if sent score <-0.6, we will take a short position; if sentiment score is within -0.6 and 0.6, we will a zero position
-4. After incorporating transaction costs, including commissions, bid-ask spread (negligible), and slippage (negligible), we can obtain adjusted pnl time series for different parameters
+1. Forward fill the sentiment score data if it is missing
+2. Calculate the daily return of bitcoin futures as the position holding period is one day if there is a trading signal
+3. Apply the logic into the historical data: if sentiment score is above the long threshold (e.g. 0.6), we will take a long position; if the sentiment score is below the short threshold (e.g. -0.6), we will take a short position; if sentiment score is between the long and short threshold, we will take a zero position
+4. Obtain the adjusted pnl time series for different parameters, after incorporating transaction costs (commissions, bid-ask spread and slippage). In our model, we assumed that the bid-ask spread and slippage are negligible.
  * In this step, we set up a _for loop_ with _bound_ and _step_, calculate the pnl for every parameter in the range
-5. The adj pnl is separated into a training set and test set, and we calculate Sharpe ratios respectively in these two sets of data
+5. Separated the adjusted pnl into a training set and test set, and we calculate Sharpe ratios for these two sets of data
  * List the top 5 parameters which generated the largest Sharpe ratios in training data set, with their Sharpe ratios in both training and test set
 
-We can look into some codes now.
+Let's take a look at the code now.
 
 Import packages needed and basic setups.
 
