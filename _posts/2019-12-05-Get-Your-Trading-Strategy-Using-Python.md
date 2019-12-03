@@ -23,7 +23,7 @@ In our project, we try to speculate the bitcoin futures prices changed based on 
 
 ## Now let’s look at an example
 
-After we downloaded bitcoin tweets from the [last post](https://thealphaedge.github.io/2019-11-27-Getting-Started-With-NLP/), we use [XXX package](link) to generate a sentiment score for each tweet. As the main topic of this post is trading strategy testing, we will not talk in detail about sentimental analysis. Then we merged the sentimental scores into a daily time series data frame and merge it with bitcoin futures contract daily close price.
+After we downloaded bitcoin tweets from the [last post](https://thealphaedge.github.io/2019-11-27-Getting-Started-With-NLP/), we use [the VADER sentiment analysis too](https://github.com/cjhutto/vaderSentiment) to generate a sentiment score for each tweet. As the main topic of this post is trading strategy testing, we will not talk in detail about sentimental analysis. Then we merged the sentimental scores into a daily time series data frame and merge it with bitcoin futures contract daily close price.
 
 
 | Date       | Close price | Score (sum) | Score (avg) |
