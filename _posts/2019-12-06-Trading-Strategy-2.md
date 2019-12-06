@@ -74,7 +74,9 @@ def lemmatize(text, nlp=nlp):
     return lemmatized
 ```
 ### Computing and Saving
-We create a function to combine all these steps together, and use the map_partitions() function to tell Dask to run it on every row. Dask delays computation to improve performance. To obtain our results, we have to call the compute() function. We then save the results in the column-oriented Apache Parquet format, which provides efficient data compression and encoding schemes to handle large datasets with high performance requirements.
+We create a function to combine all these steps together, and use the map_partitions() function to tell Dask to run it on every row. Dask delays computation to improve performance. To obtain our results, we have to call the compute() function. We then save the results in the [Apache Parquet](https://parquet.apache.org/) format.
+
+Apache Parquet is a columnar storage format from the Hadoop ecosystem. It provides efficient data compression and encoding schemes to handle large datasets with high performance requirements.
 ```python
 def clean_text(df):
     df["cleaned"] = df.text.map(tokenize).map(remove_stopwords).map(lemmatize)
@@ -134,6 +136,8 @@ bow = cv.fit_transform(df["cleaned"])
 ```
 ### Training the Machine Learning Algorithms
 The data is split into a test and training set using NLTK’s train_test_split in the ratio of 2:1. We then train the algorithms using the fit() function, and validated the resulting using the predict() and classification_report() functions.
+
+Since different algorithms have differnt strengths and weaknesses, we will test different algorithms on our data. The algorithms tested in the code below are [Naive Bayes](scikit-learn.org/stable/modules/naive_bayes.html), [XGBoost](https://xgboost.readthedocs.io/en/latest/), [Logistic Regression](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html), [Support Vector Machine](https://scikit-learn.org/stable/modules/generated/sklearn.svm.LinearSVC.html) and [Random Forest](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html).
 ```python
 X_train, X_test, y_train, y_test = train_test_split(
     bow, df, test_size=0.33, random_state=42
