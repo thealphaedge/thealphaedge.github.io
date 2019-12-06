@@ -100,7 +100,7 @@ df.dropna(inplace=True)
 df["date"] = df["date"].dt.floor("H")
 ```
 ### Loading Bitcoin Price Data
-Next, we downloaded the hourly bitcoin price from [CryptoDataDownload](www.cryptodatadownload.com). We used data from the Coinbase exchange, since it is one of the largest bitcoin exchanges in the world.
+Next, we downloaded the hourly bitcoin price from [CryptoDataDownload](https://www.cryptodatadownload.com). We used data from the Coinbase exchange, since it is one of the largest bitcoin exchanges in the world.
 ```python
 price = pd.read_csv("~/Desktop/Coinbase_BTCUSD_1h.csv")
 price.sort_values(by="Date", inplace=True)
