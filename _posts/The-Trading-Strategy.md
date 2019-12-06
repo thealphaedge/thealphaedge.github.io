@@ -6,8 +6,22 @@ Subtitle: Using Machine Learning to Generate a Trading Strategy
 
 ## Introduction
 To perform a machine learning on tweets, the data needs to be cleaned, tokenised and vectorised. We will show the steps we have taken to run the machine learning algorithm on our data.
+### Loading Libraies
+These are the libraries that we used for the project. They can be installed using [pip](https://pypi.org/project/pip/) or [Anaconda](https://www.anaconda.com/).
+```python
+from sklearn.feature_extraction.text import CountVectorizer
+import pandas as pd
+import numpy as np
+from xgboost import XGBClassifier
+from sklearn.metrics import classification_report
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import LinearSVC
+from sklearn.ensemble import RandomForestClassifier
+```
 ## Data Cleaning
-We will use Dask for data cleaning, which allows our Pandas workflow to be scaled and parallelised. Dask uses existing Python APIs and data structures to make it easy to switch between Numpy, Pandas, Scikit-learn to their Dask-powered equivalents.
+We will use [Dask](https://dask.org/) for data cleaning, which allows our Pandas workflow to be scaled and parallelised. Dask uses existing Python APIs and data structures to make it easy to switch between Numpy, Pandas, Scikit-learn to their Dask-powered equivalents.
 ### Loading the Data
 We imported the csv file we collected using Tweepy as a Dask dataframe. During the data collection process, some of the rows in the csv file might be corrupted due to connection issues. We used the python csv engine, which is slower but can tolerate more errors, and we set “error_bad_lines” to False, so that problematic rows will be skipped instead of causing an exception to be thrown.
 
@@ -23,7 +37,9 @@ df = dd.read_csv(
 )
 ```
 ### Text Processing and Tokenisation
-For our tokenisation, we used the Tweet Tokenizer in NLTK to tokenise our tweets. NLTK is a leading platform for building Python programs to work with human language data.
+Tokenization is the task of chopping the Tweets up into pieces, called tokens, perhaps at the same time throwing away certain characters, such as punctuation. 
+
+For our tokenisation, we used the Tweet Tokenizer in [NLTK](https://www.nltk.org/) to tokenise our tweets. NLTK is a leading platform for building Python programs to work with human language data.
 
 By setting “preserve_case” to False, the tokenizer converts our text to lower case, and setting “strip_handles” to True removes all Twitter usernames. We also removed all non-alphabetical tokens, because they add too much noise to our results.
 ```python
@@ -33,7 +49,9 @@ def tokenize(text):
     return list(filter(lambda word: word.isalpha(), tokens))
 ```
 ### Stop Words Removal
-Next, we used the corpus from NLTK to remove stop words. We also added meaningless words we found in our dataset that affect the results into the list.
+A stop word is a commonly used word (such as “the”, “a”, “an”, “in”) that our machine learning algorithm should ignore, since they are of little value when trying to understand a Tweet. We would not want these words taking up space in our database, or taking up valuable processing time, so they will be removed.
+
+We used the corpus from NLTK to remove stop words. We also added meaningless words we found in our dataset that affect the results into the list.
 ```python
 stop_words = nltk.corpus.stopwords.words("english")
 stop_words.extend(["bitcoin", "btc", "http", "https", "rt"])
@@ -42,7 +60,9 @@ def remove_stopwords(words):
     return list(filtered)
 ```
 ### Lemmatisation
-In the last step of data cleaning, we lemmatised the words. We discovered that the NLTK tokenizer does not work well when the correct part-of-speech tags are not given together with the word. Instead, we will use spaCy, which determines the part-of-speech tag by default and assigns the corresponding lemma.
+In the last step of data cleaning, we lemmatised the words. Lemmatisation is the algorithmic process of determining the root of a word based on its intended meaning. Unlike stemming, lemmatisation depends on correctly identifying the intended part of speech and meaning of a word in a sentence, as well as within the larger context surrounding that sentence, such as neighboring sentences or even an entire document.
+
+We discovered that the NLTK tokenizer does not work well when the correct part-of-speech tags are not given together with the word. Instead, we will use [spaCy](https://spacy.io/), which determines the part-of-speech tag by default and assigns the corresponding lemma.
 
 spaCy is a free, open-source library for advanced Natural Language Processing (NLP) in Python. It is designed specifically for production use and helps build applications that process and “understand” large volumes of text. 
 ```python
@@ -64,6 +84,8 @@ tokens.to_parquet("tokens.parquet", engine="pyarrow")
 ```
 ## Machine Learning
 We will try to train the machine learning algorithm to predict how bitcoin prices will change in the next hour. Every tweet will be classified into two groups, rise or fall. Since it is unlikely that we have enough information in a single tweet to predict prices, we will average the results of all the tweets in an hour. We hope that this will allow us to predict bitcoin prices to a reasonable degree of accuracy.
+
+Most of the algorithms we used below are part of the [Scikit-learn](https://scikit-learn.org) library. Scikit-learn is a free software machine learning library for the Python programming language.
 ### Loading Tokens
 We load the Parquet file generated in the data cleaning step, and group the time by hours using the dt.floor(“H”) function.
 ```python
@@ -76,7 +98,7 @@ df.dropna(inplace=True)
 df["date"] = df["date"].dt.floor("H")
 ```
 ### Loading Bitcoin Price Data
-We downloaded the hourly bitcoin price from [CryptoDataDownload](www.cryptodatadownload.com). We used data from the Coinbase exchange, since it is one of the largest bitcoin exchanges in the world.
+Next, we downloaded the hourly bitcoin price from [CryptoDataDownload](www.cryptodatadownload.com). We used data from the Coinbase exchange, since it is one of the largest bitcoin exchanges in the world.
 ```python
 price = pd.read_csv("~/Desktop/Coinbase_BTCUSD_1h.csv")
 price.sort_values(by="Date", inplace=True)
@@ -173,4 +195,4 @@ weighted avg       0.57      0.57      0.57    557450
 ## Conclusion
 For us, the random forest classifier produced the best results. However, this might differ based on your dataset. Machine learning is more of an art than a science, and it takes a lot of trial and error to find the best parameters.
 
-We hope this post was helpful!
+We you found this post helpful!
