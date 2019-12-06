@@ -1,6 +1,6 @@
 ---
 layout: post
-Title: The Trading Strategy
+Title: Trading Strategy II
 Subtitle: Using Machine Learning to Generate a Trading Strategy
 ---
 
