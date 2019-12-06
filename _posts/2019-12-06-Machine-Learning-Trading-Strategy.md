@@ -139,9 +139,7 @@ The data is split into a test and training set using NLTK’s train_test_split i
 
 Since different algorithms have differnt strengths and weaknesses, we will test different algorithms on our data. The algorithms tested in the code below are [Naive Bayes](scikit-learn.org/stable/modules/naive_bayes.html), [XGBoost](https://xgboost.readthedocs.io/en/latest/), [Logistic Regression](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html), [Support Vector Machine](https://scikit-learn.org/stable/modules/generated/sklearn.svm.LinearSVC.html) and [Random Forest](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html).
 ```python
-X_train, X_test, y_train, y_test = train_test_split(
-    bow, df, test_size=0.33, random_state=42
-)
+X_train, X_test, y_train, y_test = train_test_split(bow, df, test_size=0.33)
 
 # NB
 print("Naive Bayes")
